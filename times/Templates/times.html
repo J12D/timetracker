@@ -1,4 +1,5 @@
 {% load render_table from django_tables2 %}
+{% load crispy_forms_tags %}
 <!doctype html>
 <html>
     <head>
@@ -10,7 +11,14 @@
         padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
       }
     </style>
-        
+    
+    <script type="text/javascript">
+     $(function() {
+          // navigate to page on click event
+          $('#id_name').bind('change', function() { this.form.submit() } );
+     });
+     </script>
+      
     </head>
     
     <body>
@@ -40,6 +48,10 @@
 		    <h1> Arbeitszeiten aller Studenten </h1>
 		    <p> Wer hat wann, wie lange, woran gearbeitet?</p>
 		  </div>
+      
+      <form class="form-horizontal" action="/timetracker/times/" method="post">
+	    	{% crispy form %}
+	    </form>
       
       {% render_table times %}
       
