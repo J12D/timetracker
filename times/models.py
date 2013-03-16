@@ -3,9 +3,9 @@ class Submission(models.Model):
   def __unicode__(self):
         return self.name + " @ " + self.task
         
-  sub_date = models.DateTimeField('date published')
-  time = models.DecimalField('time worked', max_digits=5, decimal_places=2)
-  task = models.TextField('task')
+  sub_date = models.DateTimeField('Meldedatum')
+  time = models.DecimalField('Zeit gearbeitet', max_digits=5, decimal_places=2)
+  comment = models.TextField('Beschreibung')
   NAME_CHOICES = (
     ("Alexander Schilbach", "Alexander Schilbach"),
     ("Bastian Enking", "Bastian Enking"),
@@ -33,5 +33,9 @@ class Submission(models.Model):
     ("Tobias Roediger", "Tobias Roediger"),
     ("Tobias Schlimpen", "Tobias Schlimpen"),
   )
-  name = models.CharField(choices=NAME_CHOICES, max_length = 100)
+  TASK_CHOICES = (
+  	("Tanzen","Tanzen"),
+  )
+  name = models.CharField('Name', choices=NAME_CHOICES, max_length = 100)
+  task = models.CharField('Aufgabe', choices=TASK_CHOICES, max_length = 100)
 # Create your models here.

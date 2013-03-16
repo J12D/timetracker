@@ -26,7 +26,8 @@ class SubmissionForm(ModelForm):
    	self.helper.layout = Layout(
    		Field('name'),
    		AppendedText('time', 'h', placeholder='1.5',),
-   		Field('task', placeholder='Anpassen der fachlichen Analyse.'),
+   		Field('task'),
+   		Field('comment', placeholder='Anpassen der fachlichen Analyse.'),
    		FormActions(
        Submit('save_changes', 'Melden', css_class="btn-primary"),
        Reset('cancel', 'Reset'),
