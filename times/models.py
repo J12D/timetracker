@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.db import models
 class Submission(models.Model):
   def __unicode__(self):
@@ -34,7 +35,45 @@ class Submission(models.Model):
     ("Tobias Schlimpen", "Tobias Schlimpen"),
   )
   TASK_CHOICES = (
-  	("Tanzen","Tanzen"),
+  	("Sonstiges","Sonstiges"),
+  	("Definition Anlagestrategie","Definition Anlagestrategie"),
+		("Präsentation Definition Anlagestrategie","Präsentation Definition Anlagestrategie"),
+		("Analyse klassischer Anlagestrategien","Analyse klassischer Anlagestrategien"),
+		("Präsentation von klassischen Anlagestrategien","Präsentation von klassischen Anlagestrategien"),
+		("Definition Backtesting","Definition Backtesting"),
+		("Präsentation Definition Backtesting","Präsentation Definition Backtesting"),
+		("Aufbau Zeiterfassungstool","Aufbau Zeiterfassungstool"),
+		("Aufbau Dokumenten Management System","Aufbau Dokumenten Management System"),
+		("Aufbau Project Management Tool","Aufbau Project Management Tool"),
+		("Präsentation Administrative Tools","Präsentation Administrative Tools"),
+		("Analyse Parameter einer Anlagestrategie","Analyse Parameter einer Anlagestrategie"),
+		("Definition Modell","Definition Modell"),
+		("Präsentation Modell","Präsentation Modell"),
+		("Analyse Kursdatenquellen","Analyse Kursdatenquellen"),
+		("Analyse fachliche Anforderungen an Kursdatenbank","Analyse fachliche Anforderungen an Kursdatenbank"),
+		("Präsentation Kursdatenbank","Präsentation Kursdatenbank"),
+		("Analyse Backtesting Paramter","Analyse Backtesting Paramter"),
+		("Analyse Backtesting Funktionalität","Analyse Backtesting Funktionalität"),
+		("Fachkonzept - administrativ","Fachkonzept - administrativ"),
+		("Fachkonzept - Review","Fachkonzept - Review"),
+		("Fachkonzept fertiggestellt","Fachkonzept fertiggestellt"),
+		("Festlegung der Anwendungsarchitektur","Festlegung der Anwendungsarchitektur"),
+		("Aufbau Teststufen","Aufbau Teststufen"),
+		("Dokumentation der Architektur","Dokumentation der Architektur"),
+		("Präsentation Architektur / Deploymentmethoden","Präsentation Architektur / Deploymentmethoden"),
+		("Architektur - Review","Architektur - Review"),
+		("Architektur fertiggestellt","Architektur fertiggestellt"),
+		("Analyse technische Anforderungen an Kursdatenbank","Analyse technische Anforderungen an Kursdatenbank"),
+		("Spezifizierung generisches Anlagestrategie Modell","Spezifizierung generisches Anlagestrategie Modell"),
+		("Spezifizieurng Anlagestrategien Modul","Spezifizieurng Anlagestrategien Modul"),
+		("Spezifizierung Schnittstellen","Spezifizierung Schnittstellen"),
+		("Spezifizierung Backtesting Modul","Spezifizierung Backtesting Modul"),
+		("SRS - administrativ","SRS - administrativ"),
+		("SRS - Review","SRS - Review"),
+		("SRS fertiggestellt","SRS fertiggestellt"),
+		("Prototyping","Prototyping"),
+		("Entwicklung Datenbank","Entwicklung Datenbank"),
+		("Entwicklung Prototyp","Entwicklung Prototyp"),
   )
   name = models.CharField('Name', choices=NAME_CHOICES, max_length = 100)
   task = models.CharField('Aufgabe', choices=TASK_CHOICES, max_length = 100)
