@@ -49,7 +49,56 @@ def submit_me(request):
   else:
     form = SubmissionForm()
   return render_to_response('submit_me.html', RequestContext(request,  {'form': form, }))
+
+class NameForm(forms.Form):
+	NAME_CHOICES = (
+	("1","Alle"),
+	("Alexander Schilbach", "Alexander Schilbach"),
+	("Bastian Enking", "Bastian Enking"),
+	("Benedikt Schuler", "Benedikt Schuler"),
+	("Caroline Grabellus", "Caroline Grabellus"),
+	("Christopher Leinkauf", "Christopher Leinkauf"),
+	("David Beul", "David Beul"),
+	("Denis Weiss", "Denis Weiss"),
+	("Dominik Holste", "Dominik Holste"),
+	("Friedrich Holotiuk", "Friedrich Holotiuk"),
+	("Gianna Lange", "Gianna Lange"),
+	("Julian Debus",  "Julian Debus"),
+	("Lutz Koller", "Lutz Koller"),
+	("Marc Matthiae", "Marc Matthiae"),
+	("Matthias Lehnen", "Matthias Lehnen"),
+	("Max Richter", "Max Richter"),
+	("Maximilian Jung", "Maximilian Jung"),
+	("Maximilian Plies", "Maximilian Plies"),
+	("Nicole Spakowski", "Nicole Spakowski"),
+	("Pascal Ohrisch", "Pascal Ohrisch"),
+	("Pascal Segesser", "Pascal Segesser"),
+	("Robin Jorda", "Robin Jorda"),
+	("Simon Pohl", "Simon Pohl"),
+	("Timo Sommerfeld", "Timo Sommerfeld"),
+	("Tobias Roediger", "Tobias Roediger"),
+	("Tobias Schlimpen", "Tobias Schlimpen"),
+	)
+	name = forms.ChoiceField(NAME_CHOICES)
+	
   
 def table(request):
-	query_results = Submission.objects.all()
-	return render_to_response('times.html', RequestContext(request,  {'times': query_results, }))
+  if request.method == 'POST':
+  	form = NameForm(request.POST)
+  	if form.is_valid():
+  		name = form.cleaned_data['name']
+  		if name == '1':
+  			query_results = Submission.objects.all()
+  		else:
+  			try:
+  				query_results = Submission.objects.filter(name=name)
+  			except Submission.DoesNotExist:
+  				query_results = Submission.objects.none()
+  else:
+  	form = NameForm()
+  	query_results = Submission.objects.all().order_by('-sub_date')
+  return render_to_response('times.html', RequestContext(request, {
+  	'times': query_results,
+  	'form': form,
+  	})
+  )
