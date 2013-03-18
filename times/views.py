@@ -91,7 +91,7 @@ def table(request):
   			query_results = Submission.objects.all()
   		else:
   			try:
-  				query_results = Submission.objects.filter(name=name)
+  				query_results = Submission.objects.filter(name=name).order_by('-sub_date')
   			except Submission.DoesNotExist:
   				query_results = Submission.objects.none()
   else:
