@@ -10,6 +10,7 @@ from django.template import RequestContext
 from django.http import HttpResponseRedirect
 from django.db import models
 from django.forms import ModelForm
+from django.db.models import Sum
 from models import *
 import datetime
 
@@ -91,9 +92,18 @@ def table(request):
   			query_results = Submission.objects.all()
   		else:
   			try:
-  				query_results = Submission.objects.filter(name=name).order_by('-sub_date')
+  				query_results = Submission.objects.filter(name=name)
+  				cum_hours = Submission.objects.filter(name=name).aggregate(Sum('time'))
+  				cum_hours = cum_hours['time__sum']
   			except Submission.DoesNotExist:
   				query_results = Submission.objects.none()
+  				cum_hours = 0
+  		return render_to_response('times.html', RequestContext(request, {
+		  	'times': query_results,
+		  	'form': form,
+		  	'timesum': cum_hours,
+		  	})
+		  )
   else:
   	form = NameForm()
   	query_results = Submission.objects.all().order_by('-sub_date')

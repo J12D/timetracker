@@ -55,6 +55,10 @@
       
       {% render_table times %}
       
+      {% block sumoftime %}
+      	{% if timesum %}<p>Gesamte Arbeitszeit: {{ timesum }} Zeitstunden<p>{% endif %}
+    	{% endblock %}
+      
     </div> <!-- /container -->
 
     <!-- Le javascript
