@@ -1,5 +1,4 @@
 {% load render_table from django_tables2 %}
-{% load crispy_forms_tags %}
 <!doctype html>
 <html>
     <head>
@@ -12,12 +11,14 @@
       }
     </style>
     
-    <script type="text/javascript">
+    <!--
+<script type="text/javascript">
      $(function() {
           // navigate to page on click event
           $('#id_name').bind('change', function() { this.form.submit() } );
      });
      </script>
+-->
       
     </head>
     
@@ -35,36 +36,25 @@
           <div class="nav-collapse collapse">
             <ul class="nav">
               <li><a href="http://j12d.de/timetracker/submit_time/">Melden</a></li>
-              <li class="active"><a href="#">Liste</a></li>
-              <li><a href="http://j12d.de/timetracker/report/">Report</a></li>
+              <li><a href="http://j12d.de/timetracker/times/">Liste</a></li>
+              <li class="active" href="#"><a >Report</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
       </div>
     </div>
-
+    
     <div class="container">
 	    
 	    <div class="hero-unit">
-		    <h1> Arbeitszeiten aller Studenten </h1>
-		    <p> Wer hat wann, wie lange, woran gearbeitet?</p>
+		    <h1> Report der Arbeitszeiten </h1>
+		    <p> Bald (tm) mit Wochenauswahl</p>
 		  </div>
       
-      <form class="form-horizontal" action="/timetracker/times/" method="post">
-	    	{% crispy form %}
-	    </form>
-      
-<!--       {% render_table times %} -->
-		      {% render_table table %}
-      
-      {% block sumoftime %}
-      	{% if timesum %}<p>Gesamte Arbeitszeit: {{ timesum }} Zeitstunden<p>{% endif %}
-    	{% endblock %}
-      
-      
-
-      
+		  {% render_table times %}
     </div> <!-- /container -->
+
+
 
     <!-- Le javascript
     ================================================== -->
