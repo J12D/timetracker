@@ -96,12 +96,12 @@ def table(request):
   	if form.is_valid():
   		name = form.cleaned_data['name']
   		if name == '1':
-  			query_results = Submission.objects.all()
+  			query_results = Submission.objects.all().order_by('-sub_date')
   			cum_hours = Submission.objects.filter(name=name).aggregate(Sum('time'))
   			cum_hours = cum_hours['time__sum']
   		else:
   			try:
-  				query_results = Submission.objects.filter(name=name)
+  				query_results = Submission.objects.filter(name=name).order_by('-sub_date')
   				cum_hours = Submission.objects.filter(name=name).aggregate(Sum('time'))
   				cum_hours = cum_hours['time__sum']
   			except Submission.DoesNotExist:
