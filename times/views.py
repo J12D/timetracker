@@ -11,6 +11,8 @@ from django.http import HttpResponseRedirect
 from django.db import models
 from django.forms import ModelForm
 from django.db.models import Sum
+import django_tables2 as tables
+from django_tables2 import RequestConfig
 from models import *
 import datetime
 
@@ -83,6 +85,11 @@ class NameForm(forms.Form):
 	name = forms.ChoiceField(NAME_CHOICES)
 	
   
+class SubmissionTable(tables.Table):
+	class Meta:
+		model = Submission
+		attrs = {"class": "paleblue"}
+
 def table(request):
   if request.method == 'POST':
   	form = NameForm(request.POST)
@@ -90,6 +97,8 @@ def table(request):
   		name = form.cleaned_data['name']
   		if name == '1':
   			query_results = Submission.objects.all()
+  			cum_hours = Submission.objects.filter(name=name).aggregate(Sum('time'))
+  			cum_hours = cum_hours['time__sum']
   		else:
   			try:
   				query_results = Submission.objects.filter(name=name)
@@ -98,17 +107,45 @@ def table(request):
   			except Submission.DoesNotExist:
   				query_results = Submission.objects.none()
   				cum_hours = 0
+  		table = SubmissionTable(query_results)
+  		RequestConfig(request, paginate={"per_page": 20}).configure(table)
   		return render_to_response('times.html', RequestContext(request, {
 		  	'times': query_results,
 		  	'form': form,
+		  	'table': table,
 		  	'timesum': cum_hours,
 		  	})
 		  )
   else:
   	form = NameForm()
   	query_results = Submission.objects.all().order_by('-sub_date')
+  	table = SubmissionTable(query_results)
+  	RequestConfig(request, paginate={"per_page": 20}).configure(table)
   return render_to_response('times.html', RequestContext(request, {
   	'times': query_results,
   	'form': form,
+  	'table': table,
+  	})
+  )
+  
+
+class ReportTable(tables.Table):
+	sumtime = tables.Column(verbose_name="Arbeitszeit")
+	class Meta:
+		model = Submission
+		fields = ('name', 'sumtime')
+		attrs = {"class": "paleblue"}
+  
+def report(request):
+  if request.method == 'POST':
+    query_results = Submission.values('name').order_by('name').annotate(sumtime=Sum('time'))
+
+  else:
+    query_results = Submission.objects.values("name").annotate(sumtime=Sum('time')).order_by('-sumtime')
+    table = ReportTable(query_results)
+    RequestConfig(request).configure(table)
+  return render_to_response('report.html', RequestContext(request, {
+  	'table': query_results,
+  	'times': table,
   	})
   )
