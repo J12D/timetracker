@@ -3,6 +3,14 @@
 {% load render_table from django_tables2 %}
 {% load crispy_forms_tags %}
 
+{% block head %}
+<script type="text/javascript">
+     $(function() {
+          $('#id_name').bind('change', function() { this.form.submit() } );
+     });
+</script>
+{% endblock %}
+
 {% block title %}Arbeitszeiten aller Studenten{% endblock %}
 {% block subtitle %}Wer hat wann, wie lange, woran gearbeitet?{% endblock %}
 
@@ -17,12 +25,3 @@
   {% if timesum %}<p>Gesamte Arbeitszeit: {{ timesum }} Zeitstunden<p>{% endif %}
   {% endblock %}
 {% endblock %}
-
-
-
-		    <h1> Arbeitszeiten aller Studenten </h1>
-		    <p> Wer hat wann, wie lange, woran gearbeitet?</p>
-		  </div>
-      
-      
-     
