@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, include, url
-from times.views import submit_me, table
+from times.views import submit_me, table, report
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
@@ -16,4 +16,5 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^submit_time/', submit_me),
     url(r'^times/', table),
+    url(r'^report/', report),    
 )
