@@ -2,18 +2,20 @@
 # Create your views here.
 from django import forms
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Div, Submit, HTML, Button, Row, Field, Reset
-from crispy_forms.bootstrap import AppendedText, PrependedText, FormActions
+from crispy_forms.layout import Layout, Submit, Field, Reset
+from crispy_forms.bootstrap import AppendedText, FormActions
 
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.http import HttpResponseRedirect
-from django.db import models
 from django.forms import ModelForm
 from django.db.models import Sum
 import django_tables2 as tables
 from django_tables2 import RequestConfig
-from models import *
+from models import Submission
+
+import json
+from decimal import Decimal
 import datetime
 
 class SubmissionForm(ModelForm):
@@ -137,14 +139,10 @@ class ReportTable(tables.Table):
 		attrs = {"class": "paleblue"}
   
 def report(request):
-  if request.method == 'POST':
-    query_results = Submission.values('name').order_by('name').annotate(sumtime=Sum('time'))
-
-  else:
     query_results = Submission.objects.values("name").annotate(sumtime=Sum('time')).order_by('-sumtime')
     table = ReportTable(query_results)
     RequestConfig(request).configure(table)
-  return render_to_response('report.html', RequestContext(request, {
+    return render_to_response('report.html', RequestContext(request, {
   	'table': query_results,
   	'times': table,
   	})

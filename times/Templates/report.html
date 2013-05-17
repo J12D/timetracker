@@ -2,11 +2,38 @@
 
 {% load render_table from django_tables2 %}
 
+{% block head %}
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+        ['Student','Arbeitszeit']{% for student in table %},
+        ['{{ student.name }}', {{student.sumtime|stringformat:"f"}}]{% endfor %}
+        ]);
+
+        var options = {
+          title: 'Arbeitszeiten pro Student',
+          vAxis: {title: 'Jahr'},
+          hAxis: {title: 'Arbeitszeit (Stunden)'}
+        };
+
+        var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+    </script>
+{% endblock %}
+
 {% block title %}Report der Arbeitszeiten{% endblock %}
 {% block subtitle %}Bald (tm) mit Wochenauswahl{% endblock %}
 
 {% block content %}      
 		  <center>
 		  {% render_table times %}
+		  </center>
+		  
+		  <center>
+		  <div id="chart_div" style="width: 900px; height: 500px;"></div>
 		  </center>
 {% endblock %}
